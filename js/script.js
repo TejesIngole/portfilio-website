@@ -77,9 +77,9 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 revealEls.forEach(el => revealObserver.observe(el));
 
-// ── 6. CONTACT FORM — EmailJS ──
-const EMAILJS_SERVICE_ID  = "service_1i0a7m4";
-const EMAILJS_TEMPLATE_ID = "template_z0fekhm";
+// ── 6. CONTACT FORM — Formspree ──
+// Replace YOUR_FORM_ID with your Formspree form ID (e.g. xyzabcde)
+const FORMSPREE_ID = "xeelwlav";
 
 const form = document.getElementById("contactForm");
 
@@ -90,7 +90,6 @@ if (form) {
     const btn      = form.querySelector("button[type='submit']");
     const statusEl = document.getElementById("formStatus");
 
-    // Read values directly
     const from_name  = document.querySelector("[name='from_name']").value.trim();
     const from_email = document.querySelector("[name='from_email']").value.trim();
     const subject    = document.querySelector("[name='subject']").value.trim();
@@ -110,36 +109,41 @@ if (form) {
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
 
-    const templateParams = {
-      from_name  : from_name,
-      from_email : from_email,
-      subject    : subject,
-      message    : message
-    };
-
     try {
-      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+      const response = await fetch("https://formspree.io/f/" + FORMSPREE_ID, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          name    : from_name,
+          email   : from_email,
+          subject : subject,
+          message : message
+        })
+      });
 
-      btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
-      btn.style.background = "linear-gradient(135deg, #22c55e, #16a34a)";
-      showStatus(statusEl, "✅ Thanks! I'll get back to you soon.", "success");
-      form.reset();
+      if (response.ok) {
+        btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+        btn.style.background = "linear-gradient(135deg, #22c55e, #16a34a)";
+        showStatus(statusEl, "✅ Thanks! I'll get back to you soon.", "success");
+        form.reset();
 
-      setTimeout(() => {
-        btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
-        btn.style.background = "";
-        btn.disabled = false;
-        hideStatus(statusEl);
-      }, 4000);
+        setTimeout(() => {
+          btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+          btn.style.background = "";
+          btn.disabled = false;
+          hideStatus(statusEl);
+        }, 4000);
+
+      } else {
+        const data = await response.json();
+        throw new Error(data?.errors?.[0]?.message || "Unknown error");
+      }
 
     } catch (error) {
-      console.error("EmailJS error:", error);
       btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
       btn.style.background = "";
       btn.disabled = false;
-      // Show the EXACT error from EmailJS so we can diagnose
-      const errDetail = error?.text || error?.message || JSON.stringify(error);
-      showStatus(statusEl, "❌ Error: " + errDetail, "error");
+      showStatus(statusEl, "❌ Error: " + error.message, "error");
     }
   });
 }
