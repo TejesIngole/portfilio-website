@@ -82,46 +82,55 @@ const EMAILJS_SERVICE_ID  = "service_1i0a7m4";
 const EMAILJS_TEMPLATE_ID = "template_z0fekhm";
 
 const form = document.getElementById("contactForm");
-const statusEl = document.getElementById("formStatus");
 
 if (form) {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const btn = form.querySelector("button[type='submit']");
+    const btn        = form.querySelector("button[type='submit']");
+    const statusEl   = document.getElementById("formStatus");
+
+    // Read values directly
+    const from_name  = document.querySelector("[name='from_name']").value.trim();
+    const from_email = document.querySelector("[name='from_email']").value.trim();
+    const subject    = document.querySelector("[name='subject']").value.trim();
+    const message    = document.querySelector("[name='message']").value.trim();
 
     // Validation
-    const name    = form.querySelector("[name='from_name']").value.trim();
-    const email   = form.querySelector("[name='from_email']").value.trim();
-    const subject = form.querySelector("[name='subject']").value.trim();
-    const message = form.querySelector("[name='message']").value.trim();
-
-    if (!name || !email || !subject || !message) {
-      showStatus("⚠️ Please fill in all fields.", "warning");
+    if (!from_name || !from_email || !subject || !message) {
+      showStatus(statusEl, "⚠️ Please fill in all fields.", "warning");
       return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      showStatus("⚠️ Please enter a valid email address.", "warning");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(from_email)) {
+      showStatus(statusEl, "⚠️ Please enter a valid email address.", "warning");
       return;
     }
 
-    // Sending
+    // Sending state
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
 
+    // Explicitly pass each value — more reliable than sendForm()
+    const templateParams = {
+      from_name  : from_name,
+      from_email : from_email,
+      subject    : subject,
+      message    : message
+    };
+
     try {
-      await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form);
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
 
       btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
       btn.style.background = "linear-gradient(135deg, #22c55e, #16a34a)";
-      showStatus("✅ Thanks! I'll get back to you soon.", "success");
+      showStatus(statusEl, "✅ Thanks! I'll get back to you soon.", "success");
       form.reset();
 
       setTimeout(() => {
         btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
         btn.style.background = "";
         btn.disabled = false;
-        hideStatus();
+        hideStatus(statusEl);
       }, 4000);
 
     } catch (error) {
@@ -129,30 +138,30 @@ if (form) {
       btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
       btn.style.background = "";
       btn.disabled = false;
-      showStatus("❌ Something went wrong. Email me at ingoletejes@gmail.com", "error");
+      showStatus(statusEl, "❌ Something went wrong. Email me at ingoletejes@gmail.com", "error");
     }
   });
 }
 
-function showStatus(msg, type) {
-  if (!statusEl) return;
-  statusEl.textContent = msg;
-  statusEl.style.display = "block";
+function showStatus(el, msg, type) {
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = "block";
   if (type === "success") {
-    statusEl.style.background = "rgba(34,197,94,0.12)";
-    statusEl.style.color = "#4ade80";
-    statusEl.style.border = "1px solid rgba(34,197,94,0.25)";
+    el.style.background = "rgba(34,197,94,0.12)";
+    el.style.color = "#4ade80";
+    el.style.border = "1px solid rgba(34,197,94,0.25)";
   } else if (type === "error") {
-    statusEl.style.background = "rgba(239,68,68,0.12)";
-    statusEl.style.color = "#f87171";
-    statusEl.style.border = "1px solid rgba(239,68,68,0.25)";
+    el.style.background = "rgba(239,68,68,0.12)";
+    el.style.color = "#f87171";
+    el.style.border = "1px solid rgba(239,68,68,0.25)";
   } else {
-    statusEl.style.background = "rgba(251,191,36,0.12)";
-    statusEl.style.color = "#fbbf24";
-    statusEl.style.border = "1px solid rgba(251,191,36,0.25)";
+    el.style.background = "rgba(251,191,36,0.12)";
+    el.style.color = "#fbbf24";
+    el.style.border = "1px solid rgba(251,191,36,0.25)";
   }
 }
 
-function hideStatus() {
-  if (statusEl) statusEl.style.display = "none";
+function hideStatus(el) {
+  if (el) el.style.display = "none";
 }
