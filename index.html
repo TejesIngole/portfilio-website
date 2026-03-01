@@ -11,6 +11,9 @@
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>emailjs.init("yto0Nz1hPaEa6TaOV");</script>
 </head>
 <body>
 
@@ -42,7 +45,7 @@
         <p class="home-desc">Strong technical foundation in Data Analytics, Python, statistics, machine learning, deep learning, and generative AI. Passionate about turning raw data into real-world solutions.</p>
         <div class="home-btns">
           <a href="#about" class="btn-primary">About Me</a>
-          <a href="assets/resume.pdf" class="btn-outline" target="_blank"><i class="fas fa-download"></i> Resume</a>
+          <a href="assets/Resume.pdf" class="btn-outline" target="_blank"><i class="fas fa-download"></i> Resume</a>
         </div>
         <div class="home-socials">
           <a href="https://github.com/TejesIngole" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
@@ -80,11 +83,11 @@
           <div class="detail-item"><i class="fas fa-map-marker-alt"></i><span>Hyderabad, Telangana, India</span></div>
         </div>
         <div class="about-stats">
-          <div class="stat"><span class="stat-num">5</span><span class="stat-label">Projects</span></div>
+          <div class="stat"><span class="stat-num">6</span><span class="stat-label">Projects</span></div>
           <div class="stat"><span class="stat-num">20+</span><span class="stat-label">Skills</span></div>
           <div class="stat"><span class="stat-num">1+</span><span class="stat-label">Certifications</span></div>
         </div>
-        <a href="assets/resume.pdf" class="btn-primary" target="_blank"><i class="fas fa-download"></i> Download Resume</a>
+        <a href="assets/Resume.pdf" class="btn-primary" target="_blank"><i class="fas fa-download"></i> Download Resume</a>
       </div>
     </div>
   </section>
@@ -170,7 +173,7 @@
         <div class="edu-body">
           <span class="edu-badge">Certification</span>
           <h3>Data Science Certification</h3>
-          <p class="edu-inst">ExcelR Solutions, Hyderabad, Telangana</p>
+          <p class="edu-inst">ExcelR Solutions, Hyderabad, Telangana, India</p>
           <p class="edu-meta">June 2025 – Present &nbsp;|&nbsp; Data Analysis, SQL, Power BI, Statistics, ML, NLP, Gen AI </p>
           <span class="edu-status ongoing">Ongoing</span>
         </div>
@@ -180,8 +183,8 @@
         <div class="edu-icon-wrap"><i class="fas fa-graduation-cap"></i></div>
         <div class="edu-body">
           <span class="edu-badge">B.Tech</span>
-          <h3>B.Tech — Electrical Engineering & Minor in Data Science</h3>
-          <p class="edu-inst">Maharashtra Institute of Technology, Chhatrapati Sambhajinagar, Maharashtra</p>
+          <h3>B.Tech — Electrical Engineering &amp; Minor in Data Science</h3>
+          <p class="edu-inst">Maharashtra Institute of Technology, Chhatrapati Sambhajinagar, Maharashtra, India</p>
           <p class="edu-meta">December 2021 – May 2025</p>
           <span class="edu-status completed">CGPA: 8.0 / 10 &nbsp;|&nbsp; Completed</span>
         </div>
@@ -192,7 +195,7 @@
         <div class="edu-body">
           <span class="edu-badge">12th Grade</span>
           <h3>Higher Secondary Certificate (HSC)</h3>
-          <p class="edu-inst">Janta High School, Naigaon(Nanded), Maharashtra</p>
+          <p class="edu-inst">Janta High School, Naigaon(Nanded), Maharashtra, India</p>
           <p class="edu-meta">Year of Completion: 2021</p>
           <span class="edu-status completed">86% &nbsp;|&nbsp; Completed</span>
         </div>
@@ -203,7 +206,7 @@
         <div class="edu-body">
           <span class="edu-badge">10th Grade</span>
           <h3>Secondary School Certificate (SSC)</h3>
-          <p class="edu-inst">Rajarshi Shahu Vidyalaya, Nanded, Maharashtra</p>
+          <p class="edu-inst">Rajarshi Shahu Vidyalaya, Nanded, Maharashtra, India</p>
           <p class="edu-meta">Year of Completion: 2019</p>
           <span class="edu-status completed">80.60% &nbsp;|&nbsp; Completed</span>
         </div>
@@ -220,6 +223,7 @@
     </div>
     <div class="projects-wrapper">
 
+      <!-- Project 1 -->
       <div class="project-card">
         <div class="project-icon-wrap"><i class="fas fa-solar-panel"></i></div>
         <div class="project-body">
@@ -227,10 +231,14 @@
           <h3>Solar Power Generation Prediction</h3>
           <p>Built regression and ensemble models to forecast solar power generation from historical data. Optimized XGBoost achieving <strong>R² = 0.90</strong> on validation data.</p>
           <div class="project-tags"><span>Python</span><span>Pandas</span><span>NumPy</span><span>Scikit-Learn</span><span>XGBoost</span></div>
-          <a href="https://github.com/TejesIngole/P594-Regression---Solar-Power-Generation-Prediction-Using-Regression-Model.-" target="_blank" class="project-link"><i class="fab fa-github"></i> View on GitHub</a>
+          <div class="project-links">
+            <a href="https://github.com/TejesIngole/P594-Regression---Solar-Power-Generation-Prediction-Using-Regression-Model.-" target="_blank" class="project-link"><i class="fab fa-github"></i> View on GitHub</a>
+            <a href="#" target="_blank" class="project-link live-link"><i class="fas fa-external-link-alt"></i> Live App</a>
+          </div>
         </div>
       </div>
 
+      <!-- Project 2 -->
       <div class="project-card">
         <div class="project-icon-wrap"><i class="fas fa-brain"></i></div>
         <div class="project-body">
@@ -238,10 +246,14 @@
           <h3>Alzheimer's Disease Classification</h3>
           <p>Developed a machine learning classifier with feature engineering to detect Alzheimer's disease. Achieved <strong>~90% performance</strong> using ROC-AUC and accuracy metrics.</p>
           <div class="project-tags"><span>Python</span><span>Pandas</span><span>Scikit-Learn</span><span>XGBoost</span></div>
-          <a href="https://github.com/TejesIngole/Alzheimer-s-Disease-Classification-" target="_blank" class="project-link"><i class="fab fa-github"></i> View on GitHub</a>
+          <div class="project-links">
+            <a href="https://github.com/TejesIngole/Alzheimer-s-Disease-Classification-" target="_blank" class="project-link"><i class="fab fa-github"></i> View on GitHub</a>
+            <a href="https://alzehimer-diseases-prediction-using-classification.streamlit.app/" target="_blank" class="project-link live-link"><i class="fas fa-external-link-alt"></i> Live App</a>
+          </div>
         </div>
       </div>
 
+      <!-- Project 3 -->
       <div class="project-card">
         <div class="project-icon-wrap"><i class="fas fa-chart-line"></i></div>
         <div class="project-body">
@@ -249,10 +261,14 @@
           <h3>Apple Stock Price Forecasting</h3>
           <p>Forecasted stock prices using time-series and ML techniques. Analyzed trend, seasonality, and volatility patterns for strategic market insights.</p>
           <div class="project-tags"><span>Python</span><span>Pandas</span><span>Time-Series</span><span>Matplotlib</span></div>
-          <a href="https://github.com/TejesIngole/Apple-Stock-Price-Forecasting-Market-Trend-Analysis" target="_blank" class="project-link"><i class="fab fa-github"></i> View on GitHub</a>
+          <div class="project-links">
+            <a href="https://github.com/TejesIngole/Apple-Stock-Price-Forecasting-Market-Trend-Analysis" target="_blank" class="project-link"><i class="fab fa-github"></i> View on GitHub</a>
+            <a href="https://apple-stock-price-forecasting-using-time-series-analysis.streamlit.app/" target="_blank" class="project-link live-link"><i class="fas fa-external-link-alt"></i> Live App</a>
+          </div>
         </div>
       </div>
 
+      <!-- Project 4 -->
       <div class="project-card">
         <div class="project-icon-wrap"><i class="fas fa-tachometer-alt"></i></div>
         <div class="project-body">
@@ -264,6 +280,7 @@
         </div>
       </div>
 
+      <!-- Project 5 -->
       <div class="project-card">
         <div class="project-icon-wrap"><i class="fas fa-database"></i></div>
         <div class="project-body">
@@ -272,6 +289,21 @@
           <p>Performed advanced SQL analysis using joins, aggregations, CASE statements, and window functions. Conducted customer segmentation and YoY analysis.</p>
           <div class="project-tags"><span>SQL</span><span>MySQL</span></div>
           <span class="project-link coming"><i class="fas fa-clock"></i> GitHub Coming Soon</span>
+        </div>
+      </div>
+
+      <!-- Project 6 -->
+      <div class="project-card">
+        <div class="project-icon-wrap"><i class="fas fa-laptop-code"></i></div>
+        <div class="project-body">
+          <span class="project-domain">Web Development · Frontend</span>
+          <h3>Personal Portfolio Website</h3>
+          <p>Designed and built a fully responsive, dark-themed personal portfolio website from scratch. Features typing animations, scroll-reveal effects, sticky navbar, and a live EmailJS contact form.</p>
+          <div class="project-tags"><span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>EmailJS</span><span>GitHub Pages</span></div>
+          <div class="project-links">
+            <a href="https://github.com/TejesIngole/portfilio-website" target="_blank" class="project-link"><i class="fab fa-github"></i> View on GitHub</a>
+            <a href="https://tejesingole.github.io/portfilio-website/" target="_blank" class="project-link live-link"><i class="fas fa-external-link-alt"></i> Live App</a>
+          </div>
         </div>
       </div>
 
@@ -304,11 +336,12 @@
           <div><h4>Location</h4><span>Hyderabad, Telangana, India</span></div>
         </div>
       </div>
-      <form class="contact-form" id="contactForm">
-        <div class="form-group"><input type="text" placeholder="Your Name" required></div>
-        <div class="form-group"><input type="email" placeholder="Your Email" required></div>
-        <div class="form-group"><input type="text" placeholder="Subject"></div>
-        <div class="form-group"><textarea rows="5" placeholder="Your Message" required></textarea></div>
+      <form class="contact-form" id="contactForm" novalidate>
+        <div class="form-group"><input type="text" name="from_name" placeholder="Your Name" required></div>
+        <div class="form-group"><input type="email" name="from_email" placeholder="Your Email" required></div>
+        <div class="form-group"><input type="text" name="subject" placeholder="Subject" required></div>
+        <div class="form-group"><textarea name="message" rows="5" placeholder="Your Message" required></textarea></div>
+        <p id="formStatus" style="display:none; padding:10px 14px; border-radius:8px; font-size:14px; margin-bottom:10px;"></p>
         <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Send Message</button>
       </form>
     </div>

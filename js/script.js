@@ -77,18 +77,82 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 revealEls.forEach(el => revealObserver.observe(el));
 
-// ── 6. CONTACT FORM ──
+// ── 6. CONTACT FORM — EmailJS ──
+const EMAILJS_SERVICE_ID  = "service_1i0a7m4";
+const EMAILJS_TEMPLATE_ID = "template_z0fekhm";
+
 const form = document.getElementById("contactForm");
+const statusEl = document.getElementById("formStatus");
+
 if (form) {
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
+
     const btn = form.querySelector("button[type='submit']");
-    btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
-    btn.style.background = "linear-gradient(135deg, #22c55e, #16a34a)";
-    setTimeout(() => {
+
+    // Validation
+    const name    = form.querySelector("[name='from_name']").value.trim();
+    const email   = form.querySelector("[name='from_email']").value.trim();
+    const subject = form.querySelector("[name='subject']").value.trim();
+    const message = form.querySelector("[name='message']").value.trim();
+
+    if (!name || !email || !subject || !message) {
+      showStatus("⚠️ Please fill in all fields.", "warning");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showStatus("⚠️ Please enter a valid email address.", "warning");
+      return;
+    }
+
+    // Sending
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+
+    try {
+      await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form);
+
+      btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+      btn.style.background = "linear-gradient(135deg, #22c55e, #16a34a)";
+      showStatus("✅ Thanks! I'll get back to you soon.", "success");
+      form.reset();
+
+      setTimeout(() => {
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+        btn.style.background = "";
+        btn.disabled = false;
+        hideStatus();
+      }, 4000);
+
+    } catch (error) {
+      console.error("EmailJS error:", error);
       btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
       btn.style.background = "";
-      form.reset();
-    }, 3000);
+      btn.disabled = false;
+      showStatus("❌ Something went wrong. Email me at ingoletejes@gmail.com", "error");
+    }
   });
+}
+
+function showStatus(msg, type) {
+  if (!statusEl) return;
+  statusEl.textContent = msg;
+  statusEl.style.display = "block";
+  if (type === "success") {
+    statusEl.style.background = "rgba(34,197,94,0.12)";
+    statusEl.style.color = "#4ade80";
+    statusEl.style.border = "1px solid rgba(34,197,94,0.25)";
+  } else if (type === "error") {
+    statusEl.style.background = "rgba(239,68,68,0.12)";
+    statusEl.style.color = "#f87171";
+    statusEl.style.border = "1px solid rgba(239,68,68,0.25)";
+  } else {
+    statusEl.style.background = "rgba(251,191,36,0.12)";
+    statusEl.style.color = "#fbbf24";
+    statusEl.style.border = "1px solid rgba(251,191,36,0.25)";
+  }
+}
+
+function hideStatus() {
+  if (statusEl) statusEl.style.display = "none";
 }
