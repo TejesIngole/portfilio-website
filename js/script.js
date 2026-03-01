@@ -87,8 +87,8 @@ if (form) {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const btn        = form.querySelector("button[type='submit']");
-    const statusEl   = document.getElementById("formStatus");
+    const btn      = form.querySelector("button[type='submit']");
+    const statusEl = document.getElementById("formStatus");
 
     // Read values directly
     const from_name  = document.querySelector("[name='from_name']").value.trim();
@@ -110,7 +110,6 @@ if (form) {
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
 
-    // Explicitly pass each value — more reliable than sendForm()
     const templateParams = {
       from_name  : from_name,
       from_email : from_email,
@@ -138,7 +137,9 @@ if (form) {
       btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
       btn.style.background = "";
       btn.disabled = false;
-      showStatus(statusEl, "❌ Something went wrong. Email me at ingoletejes@gmail.com", "error");
+      // Show the EXACT error from EmailJS so we can diagnose
+      const errDetail = error?.text || error?.message || JSON.stringify(error);
+      showStatus(statusEl, "❌ Error: " + errDetail, "error");
     }
   });
 }
