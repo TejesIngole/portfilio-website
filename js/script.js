@@ -77,9 +77,10 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 revealEls.forEach(el => revealObserver.observe(el));
 
-// ── 6. CONTACT FORM — Formspree ──
-// Replace YOUR_FORM_ID with your Formspree form ID (e.g. xyzabcde)
-const FORMSPREE_ID = "xeelwlav";
+// ── 6. CONTACT FORM — EmailJS ──
+const EMAILJS_PUBLIC_KEY  = "CQ-uq597-Nd_XJ-RY";
+const EMAILJS_SERVICE_ID  = "service_portfolio";
+const EMAILJS_TEMPLATE_ID = "template_xjqypo2";
 
 const form = document.getElementById("contactForm");
 
@@ -95,7 +96,6 @@ if (form) {
     const subject    = document.querySelector("[name='subject']").value.trim();
     const message    = document.querySelector("[name='message']").value.trim();
 
-    // Validation
     if (!from_name || !from_email || !subject || !message) {
       showStatus(statusEl, "⚠️ Please fill in all fields.", "warning");
       return;
@@ -105,45 +105,43 @@ if (form) {
       return;
     }
 
-    // Sending state
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
 
+    const templateParams = {
+      from_name  : from_name,
+      from_email : from_email,
+      subject    : subject,
+      message    : message
+    };
+
     try {
-      const response = await fetch("https://formspree.io/f/" + FORMSPREE_ID, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify({
-          name    : from_name,
-          email   : from_email,
-          subject : subject,
-          message : message
-        })
-      });
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        { publicKey: EMAILJS_PUBLIC_KEY }
+      );
 
-      if (response.ok) {
-        btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
-        btn.style.background = "linear-gradient(135deg, #22c55e, #16a34a)";
-        showStatus(statusEl, "✅ Thanks! I'll get back to you soon.", "success");
-        form.reset();
+      btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+      btn.style.background = "linear-gradient(135deg, #22c55e, #16a34a)";
+      showStatus(statusEl, "✅ Thanks! I'll get back to you soon.", "success");
+      form.reset();
 
-        setTimeout(() => {
-          btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
-          btn.style.background = "";
-          btn.disabled = false;
-          hideStatus(statusEl);
-        }, 4000);
-
-      } else {
-        const data = await response.json();
-        throw new Error(data?.errors?.[0]?.message || "Unknown error");
-      }
+      setTimeout(() => {
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+        btn.style.background = "";
+        btn.disabled = false;
+        hideStatus(statusEl);
+      }, 4000);
 
     } catch (error) {
+      console.error("EmailJS error:", error);
       btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
       btn.style.background = "";
       btn.disabled = false;
-      showStatus(statusEl, "❌ Error: " + error.message, "error");
+      const errDetail = error?.text || error?.message || JSON.stringify(error);
+      showStatus(statusEl, "❌ Error: " + errDetail, "error");
     }
   });
 }
